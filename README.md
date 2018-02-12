@@ -57,13 +57,13 @@ tags                  | Table           | No       | The key-value pairs to use 
 const HTTP_RESPONSE_SUCCESS = 200;
 groupParams <- {
     "logGroupName": "testLogGroup",
-    "tags": { "Environment" : "test"}
-}
+    "tags": { "Environment": "test" }
+};
+
 logs.createLogGroup(groupParams, function (res) {
-    if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
+    if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log group successfully");
-    }
-    else {
+    } else {
         server.log("Failed to create log group. error: " + http.jsondecode(res.body).message);
     }
 });
@@ -91,12 +91,12 @@ logStreamName         | String          | Yes      | The name of the log stream 
 params <- {
     "logGroupName": "testLogGroup",
     "logStreamName": "testLogStream"
-}
+};
+
 logs.createLogStream(params, function (res) {
-    if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
+    if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log stream successfully");
-    }
-    else {
+    } else {
         server.log("Failed to create log stream. error: " + http.jsondecode(res.body).message);
     }
 });
@@ -122,15 +122,13 @@ logGroupName           | String         | Yes      | The name of the log group y
 ```squirrel
 deleteParams <- {
     "logGroupName": "testLogGroup"
-}
+};
 
 logs.deleteLogGroup(deleteParams, function (res) {
-
-    if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
+    if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log group successfully");
-    }
-    else {
-        server.log("Failed to delete log group. error: " + http.jsondecode(res.body).message)
+    } else {
+        server.log("Failed to delete log group. error: " + http.jsondecode(res.body).message);
     }
 });
 ```
@@ -157,13 +155,13 @@ logStreamName          | String         | Yes      | The name of the log stream 
 params <- {
     "logGroupName": "testLogGroup",
     "logStreamName": "testLogStream"
-}
+};
+
 logs.deleteLogStream(deleteParams, function (res) {
-    if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
+    if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log stream successfully");
-    }
-    else {
-        server.log("Failed to delete log stream. error: " + http.jsondecode(res.body).message)
+    } else {
+        server.log("Failed to delete log stream. error: " + http.jsondecode(res.body).message);
     }
 });
 ```
@@ -189,11 +187,11 @@ sequenceToken          | No              | No       | The sequence token
 ### Example
 
 ```squirrel
-d <- date();
+d       <- date();
 msecStr <- format("%06d", d.usec).slice(0,3);
-t <- format("%d%s", time(), msecStr);
+t       <- format("%d%s", time(), msecStr);
 
-local putLogParams = {
+putLogParams <- {
     "logGroupName": "testLogGroup",
     "logStreamName": "testLogStream",
     "logEvents": [{
@@ -205,11 +203,10 @@ local putLogParams = {
 logs.putLogEvents(putLogParams, function(res) {
     if (res.statuscode) {
         server.log("successfully put a log in a stream");
-    }
-    else {
+    } else {
         server.log("failed to put a log in a stream");
     }
-})
+});
 ```
 
 
@@ -230,9 +227,6 @@ x-amzn-requestid       | String         | Amazon request id
 connection             | String         | Connection status
 date                   | String         | The date and time at which response was sent
 content-length         | String         | the length of the content
-
-
-
 
 
 The AWSCloudWatchLogs library is licensed under the [MIT License](LICENSE).
