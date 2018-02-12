@@ -1,5 +1,10 @@
 # AWSCloudWatchLogs
 
+You can use Amazon CloudWatch Logs to monitor, store, and access your log files
+from Amazon Elastic Compute Cloud (Amazon EC2) instances, AWS CloudTrail, and
+other sources. You can then retrieve the associated log data from CloudWatch
+Logs. This class can be used to perform Cloud Watch log actions via an Electric Imp.
+
 To add this library to your model, add the following lines to the top of your agent code:
 
 ```
@@ -8,8 +13,6 @@ To add this library to your model, add the following lines to the top of your ag
 ```
 
 **Note: [AWSRequestV4](https://github.com/electricimp/AWSRequestV4/) must be loaded.**
-
-This class can be used to perform Cloud Watch log actions.
 
 ## Class Methods
 
