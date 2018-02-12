@@ -46,10 +46,10 @@ Parameter              | Type           | Description
 
 where `params` includes
 
-Parameter             | Type            | Required | Description
---------------------- | --------------- | -------- | -----------
-logGroupName          | String          | Yes      | The name of the log group you are creating
-tags                  | Table           | No       | The key-value pairs to use for the tags
+Parameter             | Type            | Required | Default | Description
+--------------------- | --------------- | -------- | ------- | -----------
+logGroupName          | String          | Yes      | N/A     | The name of the log group you are creating
+tags                  | Table           | No       | null    | The key-value pairs to use for the tags
 
 ### Example
 
@@ -177,12 +177,12 @@ Parameter              | Type           | Description
 
 where `params` includes
 
-Parameter              | Type            | Required | Description
----------------------- | --------------- | -------- | -----------
-logEvents              | Array of Tables | Yes      | The log events. Each table must contain a message of type String and a timestamp of type String (milliseconds passed  Jan 1, 1970 00:00:00 UTC).
-logGroupName           | String          | Yes      | The name of the log group
-logStreamName          | String          | Yes      | The name of the log stream
-sequenceToken          | No              | No       | The sequence token
+Parameter              | Type            | Required | Default | Description
+---------------------- | --------------- | -------- | ------- | -----------
+logEvents              | Array of Tables | Yes      | N/A     | The log events. Each table must contain a message of type String and a timestamp of type String (milliseconds passed  Jan 1, 1970 00:00:00 UTC).
+logGroupName           | String          | Yes      | N/A     | The name of the log group
+logStreamName          | String          | Yes      | N/A     | The name of the log stream
+sequenceToken          | No              | No       | null    | The sequence token
 
 ### Example
 
