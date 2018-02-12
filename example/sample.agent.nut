@@ -73,24 +73,24 @@ server.log(timestamp);
 // run time code
 
 // create a log group
-logs.CreateLogGroup(groupParams, function(res) {
+logs.createLogGroup(groupParams, function(res) {
 
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log group successfully");
 
         // create a log stream
-        logs.CreateLogStream(params, function(res) {
+        logs.createLogStream(params, function(res) {
 
             if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
                 server.log("Created a log stream successfully");
 
                 // puts a log event onto the stream
-                logs.PutLogEvents(putLogParams, function(res) {
+                logs.putLogEvents(putLogParams, function(res) {
 
                     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
                         server.log("Put a log  successfully");
 
-                        logs.DeleteLogGroup(putLogParams, function(res) {
+                        logs.deleteLogGroup(putLogParams, function(res) {
 
                             if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
                                 server.log("Deleted log group successfully");
