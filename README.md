@@ -59,7 +59,7 @@ groupParams <- {
     "logGroupName": "testLogGroup",
     "tags": { "Environment" : "test"}
 }
-logs.CreateLogGroup(groupParams, function (res) {
+logs.createLogGroup(groupParams, function (res) {
     if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log group successfully");
     }
@@ -92,7 +92,7 @@ params <- {
     "logGroupName": "testLogGroup",
     "logStreamName": "testLogStream"
 }
-logs.CreateLogStream(params, function (res) {
+logs.createLogStream(params, function (res) {
     if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log stream successfully");
     }
@@ -124,7 +124,7 @@ deleteParams <- {
     "logGroupName": "testLogGroup"
 }
 
-logs.DeleteLogGroup(deleteParams, function (res) {
+logs.deleteLogGroup(deleteParams, function (res) {
 
     if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log group successfully");
@@ -158,7 +158,7 @@ params <- {
     "logGroupName": "testLogGroup",
     "logStreamName": "testLogStream"
 }
-logs.DeleteLogStream(deleteParams, function (res) {
+logs.deleteLogStream(deleteParams, function (res) {
     if(res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log stream successfully");
     }
@@ -202,7 +202,7 @@ local putLogParams = {
     }]
 };
 
-logs.PutLogEvents(putLogParams, function(res) {
+logs.putLogEvents(putLogParams, function(res) {
     if (res.statuscode) {
         server.log("successfully put a log in a stream");
     }

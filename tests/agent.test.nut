@@ -55,7 +55,7 @@ class CloudWatchLogsTest extends ImpTestCase {
         _logs = AWSCloudWatchLogs(AWS_CLOUD_WATCH_LOGS_REGION, AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID, AWS_CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY);
         return Promise(function(resolve, reject) {
 
-            _logs.CreateLogGroup({ "logGroupName": "testLogGroup" }, function(res) {
+            _logs.createLogGroup({ "logGroupName": "testLogGroup" }, function(res) {
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
                     resolve();
                 } else {
@@ -79,7 +79,7 @@ class CloudWatchLogsTest extends ImpTestCase {
         }
         return Promise(function(resolve, reject) {
 
-            _logs.CreateLogGroup(groupParams, function(res) {
+            _logs.createLogGroup(groupParams, function(res) {
 
                 try {
                     this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode)
@@ -102,12 +102,12 @@ class CloudWatchLogsTest extends ImpTestCase {
         return Promise(function(resolve, reject) {
 
             // create the first log group
-            _logs.CreateLogGroup(groupParams, function(res) {
+            _logs.createLogGroup(groupParams, function(res) {
 
                 // check that the first group was successfully made
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
                     // trys to create the second with the same name
-                    _logs.CreateLogGroup(groupParams, function(res) {
+                    _logs.createLogGroup(groupParams, function(res) {
 
                         try {
                             this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_BAD_REQUEST, res.statuscode);
@@ -141,7 +141,7 @@ class CloudWatchLogsTest extends ImpTestCase {
         return Promise(function(resolve, reject) {
 
             // creates a log stream for the log group from *setup()*
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 try {
                     this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode);
@@ -167,11 +167,11 @@ class CloudWatchLogsTest extends ImpTestCase {
         }
         return Promise(function(resolve, reject) {
 
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 // checks that the log stream created correctly
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
-                    _logs.DeleteLogStream(streamParams, function(res) {
+                    _logs.deleteLogStream(streamParams, function(res) {
 
                         try {
                             this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode);
@@ -200,11 +200,11 @@ class CloudWatchLogsTest extends ImpTestCase {
         }
         return Promise(function(resolve, reject) {
 
-            _logs.CreateLogGroup(groupParams, function(res) {
+            _logs.createLogGroup(groupParams, function(res) {
 
                 // checking for a successful creation
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
-                    _logs.DeleteLogGroup(groupParams, function(res) {
+                    _logs.deleteLogGroup(groupParams, function(res) {
 
                         try {
                             this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode)
@@ -236,7 +236,7 @@ class CloudWatchLogsTest extends ImpTestCase {
 
         return Promise(function(resolve, reject) {
 
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 try {
                     this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_BAD_REQUEST, res.statuscode);
@@ -264,7 +264,7 @@ class CloudWatchLogsTest extends ImpTestCase {
 
         return Promise(function(resolve, reject) {
 
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 try {
                     this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_BAD_REQUEST, res.statuscode);
@@ -289,7 +289,7 @@ class CloudWatchLogsTest extends ImpTestCase {
 
         return Promise(function(resolve, reject) {
 
-            _logs.DeleteLogGroup(deleteParams, function(res) {
+            _logs.deleteLogGroup(deleteParams, function(res) {
 
                 try {
                     this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_BAD_REQUEST, res.statuscode);
@@ -314,7 +314,7 @@ class CloudWatchLogsTest extends ImpTestCase {
         }
         return Promise(function(resolve, reject) {
 
-            _logs.DeleteLogStream(deleteParams, function(res) {
+            _logs.deleteLogStream(deleteParams, function(res) {
 
                 try {
                     this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_BAD_REQUEST, res.statuscode);
@@ -354,10 +354,10 @@ class CloudWatchLogsTest extends ImpTestCase {
         return Promise(function(resolve, reject) {
 
             // creates a log stream for the log group from *setup()*
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
-                    _logs.PutLogEvents(putLogParams, function(res) {
+                    _logs.putLogEvents(putLogParams, function(res) {
 
                         try {
                             this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode);
@@ -400,10 +400,10 @@ class CloudWatchLogsTest extends ImpTestCase {
         return Promise(function(resolve, reject) {
 
             // creates a log stream for the log group from *setup()*
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
-                    _logs.PutLogEvents(putLogParams, function(res) {
+                    _logs.putLogEvents(putLogParams, function(res) {
 
                         try {
                             this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode);
@@ -452,10 +452,10 @@ class CloudWatchLogsTest extends ImpTestCase {
         return Promise(function(resolve, reject) {
 
             // creates a log stream for the log group from *setup()*
-            _logs.CreateLogStream(streamParams, function(res) {
+            _logs.createLogStream(streamParams, function(res) {
 
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
-                    _logs.PutLogEvents(putLogParams, function(res) {
+                    _logs.putLogEvents(putLogParams, function(res) {
 
                         try {
                             this.assertTrue(res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS, res.statuscode);
@@ -510,7 +510,7 @@ class CloudWatchLogsTest extends ImpTestCase {
     function deleteParam(param) {
         return Promise(function(resolve, reject) {
 
-            _logs.DeleteLogGroup(param, function(res) {
+            _logs.deleteLogGroup(param, function(res) {
 
                 if (res.statuscode == AWS_TEST_HTTP_RESPONSE_SUCCESS) {
                     resolve();

@@ -51,7 +51,7 @@ class AWSCloudWatchLogs {
     // @param {table} params
     // @param {function} cb
     // --------------------------------------------------------------------------
-    function CreateLogStream(params, cb) {
+    function createLogStream(params, cb) {
 
         local headers = {
             "X-Amz-Target": format("%s.CreateLogStream", TARGET_PREFIX)
@@ -66,7 +66,7 @@ class AWSCloudWatchLogs {
     // @param {table} params
     // @param {function} cb
     // --------------------------------------------------------------------------
-    function CreateLogGroup(params, cb) {
+    function createLogGroup(params, cb) {
 
         local headers = {
             "X-Amz-Target": format("%s.CreateLogGroup", TARGET_PREFIX)
@@ -81,7 +81,7 @@ class AWSCloudWatchLogs {
     // @param {table} params
     // @param {function} cb
     // --------------------------------------------------------------------------
-    function DeleteLogGroup(params, cb) {
+    function deleteLogGroup(params, cb) {
 
         local headers = {
             "X-Amz-Target": format("%s.DeleteLogGroup", TARGET_PREFIX)
@@ -96,7 +96,7 @@ class AWSCloudWatchLogs {
     // @param {table} params
     // @param {function} cb
     // --------------------------------------------------------------------------
-    function DeleteLogStream(params, cb) {
+    function deleteLogStream(params, cb) {
 
         local headers = {
             "X-Amz-Target": format("%s.DeleteLogStream", TARGET_PREFIX)
@@ -111,7 +111,7 @@ class AWSCloudWatchLogs {
     // @param {table} params
     // @param {function} cb
     // --------------------------------------------------------------------------
-    function PutLogEvents(params, cb) {
+    function putLogEvents(params, cb) {
 
         local locLogEvents = params.logEvents;
         local newParams = "{ \"logStreamName\": " + http.jsonencode(params.logStreamName) + ", \"logEvents\": [";
