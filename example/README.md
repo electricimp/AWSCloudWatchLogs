@@ -1,10 +1,13 @@
 # AWS Cloud Watch Logs Example Instructions
 
-This example shows you how to create a AWS Cloud Watch log group and log stream. The example posts a log event, and then the log group is deleted.
+This example shows you how to create a AWS Cloud Watch log group and log stream, post a log event, and delete a log group.
 
-The sample code requires log keys. The instructions below will guide you how to set up the keys. These keys will need to be entered into the example code.
+The sample code requires AWS keys. The instructions below will guide you how to set up the keys. These keys will need to be entered into the example code. You will also need to select a region in order to view the logs.
 
-Please ensure your AWS keys have AWS Cloud Watch logs access.
+## Log into AWS
+
+1. Log into [AWS Console](https://aws.amazon.com/console/)
+1. On the Console Home select and make note of your region, ie US West (N. California) is `us-west-1`.
 
 ## Setting up AIM Policy
 
@@ -12,16 +15,13 @@ Please ensure your AWS keys have AWS Cloud Watch logs access.
 1. Select `IAM Manage User Access and Encryption Keys` item
 1. Select `Policies` item from the menu on the left
 1. Press `Create Policy` button
-1. Press `Select` for `Policy Generator`
-1. On the `Edit Permissions` page do the following
-    1. Set `Effect` to `Allow`
-    1. Set `AWS Service` to `Amazon CloudWatch Logs`
-    1. Set `Actions` to `All Actions`
-    1. Leave `Amazon Resource Name (ARN)` blank
-    1. Press `Add Statement`
-    1. Press `Next Step`
-1. Give your policy a name, for example, `allow-CloudWatch-Logs` and type in into the `Policy Name` field
-1. Press `Create Policy`
+1. On the `Create Policy` page do the following
+    1. Click `Service` or `Choose a service` locate and select `CloudWatch Logs`
+    1. Click `Actions` under `Manual Actions` Check `All CloudWatch Logs Actions` (this will create 2 warnings)
+    1. Click `Resources` and select `All resources`
+    1. Press `Review policy`
+    1. Give your policy a name, for example, `allow-CloudWatch-Logs`
+    1. Press `Create Policy`
 
 ## Setting up the AIM User
 
@@ -29,7 +29,7 @@ Please ensure your AWS keys have AWS Cloud Watch logs access.
 1. Select the `IAM Manage User Access and Encryption Keys` item
 1. Select `Users` item from the menu on the left
 1. Press `Add user`
-1. Choose a user name, for example `user-calling-sns`
+1. Choose a user name, for example `user-calling-cloudWatchLogs`
 1. Check `Programmatic access` but not anything else
 1. Press `Next: Permissions` button
 1. Press `Attach existing policies directly` icon
@@ -50,7 +50,16 @@ AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID      | IAM Access Key ID
 AWS_CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY  | IAM Secret Access Key
 AWS_CLOUD_WATCH_LOGS_REGION             | AWS region
 
-Run the example code.
+After entering your credentials, run the example code.
+The example code will create a log group, create a log stream, put a log event in the AWS console. If the log group exists the example will delete the group then create log group, stream and event again.
 
-It will create a log group, create a log stream, put a log event in the AWS console, and then delete the log group.
-To view the log, comment out the delete section of the code. You will be able to see the logs in the AWS console CloudWatch -> Log Groups. Add the deletion section of the code and run again to remove the log group.
+## View Logs in AWS Console
+
+To view logs in AWS
+
+1. Select `Services` link (on the top left of the page) and them type `CloudWatch` in the search line
+1. Select the `CloudWatch` item
+1. Make sure your region is the same one that you entered in the code
+1. Select `Logs` from the sidebar
+
+If you have run the code you will see `testLogGroup`, you can click on it to see `testLogStream`, and if you click on `testLogStream` you can see the log event.
