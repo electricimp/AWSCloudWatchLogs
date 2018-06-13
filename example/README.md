@@ -1,9 +1,8 @@
-# Demo Instructions
+# AWS Cloud Watch Logs Example Instructions
 
-This example shows you how to create a AWS Cloud Watch log group and create a log stream for it. Posts a log event then the log group is deleted.
+This example shows you how to create a AWS Cloud Watch log group and log stream. The example posts a log event, and then the log group is deleted.
 
-As the sample code includes the private key verbatim in the source, it should be treated carefully, and not checked into version control!
-
+The sample code requires log keys. The instructions below will guide you how to set up the keys. These keys will need to be entered into the example code.
 
 Please ensure your AWS keys have AWS Cloud Watch logs access.
 
@@ -39,13 +38,11 @@ Please ensure your AWS keys have AWS Cloud Watch logs access.
 1. Press `Create user`
 1. Copy down your `Access key ID` and `Secret access key`
 
-The names used align with the *sample.agent.nut* code.
-
 ## Setting up Agent Code
 
-Here is some agent [code](sample.agent.nut).
+Copy the example agent [code](sample.agent.nut) into your code editor.
 
-Set the example code configuration parameters Enter your AWS keys and your AWS region.
+In the example code find the configuration parameters, and enter your AWS keys and your AWS region.
 
 Parameter                               | Description
 --------------------------------------- | -----------
@@ -53,4 +50,7 @@ AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID      | IAM Access Key ID
 AWS_CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY  | IAM Secret Access Key
 AWS_CLOUD_WATCH_LOGS_REGION             | AWS region
 
-Run the example code and it should create a log group, create a log stream and put a log event in them viewable in the AWS console CloudWatch -> Log Groups (provided you remove the DeleteLogGroup function at the end of sample.agent.nut )
+Run the example code.
+
+It will create a log group, create a log stream, put a log event in the AWS console, and then delete the log group.
+To view the log, comment out the delete section of the code. You will be able to see the logs in the AWS console CloudWatch -> Log Groups. Add the deletion section of the code and run again to remove the log group.
