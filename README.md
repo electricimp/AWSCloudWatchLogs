@@ -44,7 +44,7 @@ Creates a log group with the specified name. For more detail please see: [AWS Do
 
 Parameter              | Type           | Description
 ---------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See API Reference)
+**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogGroup.html))
 **cb**                 | Function       | Callback function that takes one parameter (a response table)
 
 where `params` includes
@@ -78,7 +78,7 @@ Creates a log stream for the specified log group. For more detail please see: [A
 
 Parameter             | Type            | Description
 --------------------- | --------------- | -----------
-**params**            | Table           | Table of parameters (See API Reference)
+**params**            | Table           | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogStream.html))
 **cb**                | Function        | Callback function that takes one parameter (a response table)
 
 where `params` includes
@@ -107,11 +107,11 @@ logs.createLogStream(params, function (res) {
 
 
 ### deleteLogGroup(params, cb)
-Creates a log group with the specified name. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html)
+Deletes a log group with the specified name. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html)
 
 Parameter              | Type           | Description
 ---------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See API Reference)
+**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html))
 **cb**                 | Function       | Callback function that takes one parameter (a response table)
 
 where `params` includes
@@ -142,7 +142,7 @@ Deletes the specified log stream and permanently deletes all the archived log ev
 
 Parameter              | Type           | Description
 ---------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See API Reference)
+**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogStream.html))
 **cb**                 | Function       | Callback function that takes one parameter (a response table)
 
 where `params` includes
@@ -175,7 +175,7 @@ Uploads a batch of log events to the specified log stream. For more detail pleas
 
 Parameter              | Type           | Description
 ---------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See API Reference)
+**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html))
 **cb**                 | Function       | Callback function that takes one parameter (a response table)
 
 where `params` includes
@@ -231,5 +231,7 @@ connection             | String         | Connection status
 date                   | String         | The date and time at which response was sent
 content-length         | String         | the length of the content
 
+
+## License
 
 The AWSCloudWatchLogs library is licensed under the [MIT License](LICENSE).
