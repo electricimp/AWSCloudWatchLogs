@@ -1,20 +1,17 @@
 # AWSCloudWatchLogs
 
-You can use Amazon CloudWatch Logs to monitor, store, and access your log files
-from Amazon Elastic Compute Cloud (Amazon EC2) instances, AWS CloudTrail, and
-other sources. You can then retrieve the associated log data from CloudWatch
-Logs. This class can be used to perform Cloud Watch log actions via an Electric Imp.
+You can use [Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/Welcome.html) to monitor, store, and access your log files from Amazon Elastic Compute Cloud (Amazon EC2) instances, AWS CloudTrail, and other sources. You can then retrieve the associated log data from CloudWatch Logs. This class can be used to perform Cloud Watch log actions via an Electric Imp.
 
-To add this library to your model, add the following lines to the top of your agent code:
+**Note: The AWSCloudWatchLogs library uses [AWSRequestV4](https://github.com/electricimp/AWSRequestV4/) for all requests. Therefor the AWSRequestV4 must also be included in your agent code.**
+
+**To add this library copy and paste the following lines to the top of your agent code:**
 
 ```
 #require "AWSRequestV4.class.nut:1.0.2"
 #require "AWSCloudWatchLogs.lib.nut:1.0.0"
 ```
 
-**Note: [AWSRequestV4](https://github.com/electricimp/AWSRequestV4/) must be loaded.**
-
-## Class Methods
+## Class Usage
 
 ### constructor(region, accessKeyId, secretAccessKey)
 All parameters are strings. Access keys can be generated with IAM.
@@ -31,30 +28,49 @@ Parameter              | Type           | Description
 #require "AWSRequestV4.class.nut:1.0.2"
 #require "AWSCloudWatchLogs.lib.nut:1.0.0"
 
-const AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID = "YOUR_KEY_ID_HERE";
-const AWS_CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY = "YOUR_KEY_HERE";
-const AWS_CLOUD_WATCH_LOGS_REGION = "YOUR_REGION_HERE";
+const AWS_CLOUDWATCH_LOGS_ACCESS_KEY_ID = "YOUR_KEY_ID_HERE";
+const AWS_CLOUDWATCH_LOGS_SECRET_ACCESS_KEY = "YOUR_KEY_HERE";
+const AWS_CLOUDWATCH_LOGS_REGION = "YOUR_REGION_HERE";
 
-logs <- AWSCloudWatchLogs(AWS_CLOUD_WATCH_LOGS_REGION, AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID, AWS_CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY);
+logs <- AWSCloudWatchLogs(AWS_CLOUDWATCH_LOGS_REGION, AWS_CLOUDWATCH_LOGS_ACCESS_KEY_ID, AWS_CLOUDWATCH_LOGS_SECRET_ACCESS_KEY);
 ```
 
+## Class Methods
 
-### createLogGroup(params, cb)
+### action(actionType, actionParams, callback)
+
+This method performs a specified action (eg. create log group) with the required parameters (actionParams) for the specified action type.
+
+| Parameter      | Type     | Description |
+| -------------- | -------- | ----------- |
+| *actionType*   | Constant | The type of the Amazon CloudWatch Logs action that you want to perform (see ‘Action Types’, below) |
+| *actionParams* | Table    | Table of action-specific parameters (see ‘Action Parameters’, below) |
+| *callback*     | Function | Callback function that takes one parameter: a [Callback Response Table](#callback-response-table) |
+
+#### Action Types
+
+| Action Type                                                                                     | Description                                       |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| [*AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP*](#aws_cloudwatch_logs_action_create_log_group)   | Creates a log group with the specified name.      |
+| [*AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM*](#aws_cloudwatch_logs_action_create_log_stream) | Creates a log stream for the specified log group. |
+| [*AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP*](#aws_cloudwatch_logs_action_delete_log_group)   | Deletes a log group with the specified name.      |
+| [*AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM*](#aws_cloudwatch_logs_action_delete_log_stream) | Deletes the specified log stream and permanently deletes all the archived log events associated with the log stream. |
+| [*AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS*](#aws_cloudwatch_logs_action_put_log_events)       | Uploads a batch of log events to the specified log stream. |
+
+#### Action Parameters
+
+Specific actions of the types listed above are configured by passing information into *action()*’s *actionParams* parameter a
+
+#### AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP
+
 Creates a log group with the specified name. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogGroup.html)
 
-Parameter              | Type           | Description
----------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogGroup.html))
-**cb**                 | Function       | Callback function that takes one parameter (a response table)
+| Parameter    | Type   | Required | Default | Description                                 |
+| ------------ | ------ | -------- | ------- | ------------------------------------------- |
+| logGroupName | String | Yes      | N/A     | The name of the log group you are creating. |
+| tags         | Table  | No       | `null`  | The key-value pairs to use for the tags.    |
 
-where `params` includes
-
-Parameter             | Type            | Required | Default | Description
---------------------- | --------------- | -------- | ------- | -----------
-logGroupName          | String          | Yes      | N/A     | The name of the log group you are creating
-tags                  | Table           | No       | null    | The key-value pairs to use for the tags
-
-### Example
+##### Example
 
 ```squirrel
 const HTTP_RESPONSE_SUCCESS = 200;
@@ -63,7 +79,7 @@ groupParams <- {
     "tags": { "Environment": "test" }
 };
 
-logs.createLogGroup(groupParams, function (res) {
+logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP, groupParams, function (res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log group successfully");
     } else {
@@ -72,23 +88,16 @@ logs.createLogGroup(groupParams, function (res) {
 });
 ```
 
+#### AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM
 
-### createLogStream(params, cb)
 Creates a log stream for the specified log group. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogStream.html)
 
-Parameter             | Type            | Description
---------------------- | --------------- | -----------
-**params**            | Table           | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogStream.html))
-**cb**                | Function        | Callback function that takes one parameter (a response table)
+| Parameter     | Type   | Required | Description |
+| ------------- | ------ | -------- | ----------- |
+| logGroupName  | String | Yes      | The name of the existing log group. |
+| logStreamName | String | Yes      | The name of the log stream you are creating. |
 
-where `params` includes
-
-Parameter             | Type            | Required | Description
---------------------- | --------------- | -------- | -----------
-logGroupName          | String          | Yes      | The name of the existing log group
-logStreamName         | String          | Yes      | The name of the log stream you are creating
-
-### Example
+##### Example
 
 ```squirrel
 params <- {
@@ -96,7 +105,7 @@ params <- {
     "logStreamName": "testLogStream"
 };
 
-logs.createLogStream(params, function (res) {
+logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM, params, function (res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log stream successfully");
     } else {
@@ -105,29 +114,22 @@ logs.createLogStream(params, function (res) {
 });
 ```
 
+#### AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP
 
-### deleteLogGroup(params, cb)
 Deletes a log group with the specified name. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html)
 
-Parameter              | Type           | Description
----------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html))
-**cb**                 | Function       | Callback function that takes one parameter (a response table)
+| Parameter    | Type   | Required | Description |
+| ------------ | ------ | -------- | ----------- |
+| logGroupName | String | Yes      | The name of the log group you want to delete. |
 
-where `params` includes
-
-Parameter              | Type           | Required | Description
----------------------- | -------------- | -------- | -----------
-logGroupName           | String         | Yes      | The name of the log group you want to delete
-
-### Example
+##### Example
 
 ```squirrel
 deleteParams <- {
     "logGroupName": "testLogGroup"
 };
 
-logs.deleteLogGroup(deleteParams, function (res) {
+logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP, deleteParams, function (res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log group successfully");
     } else {
@@ -137,22 +139,16 @@ logs.deleteLogGroup(deleteParams, function (res) {
 ```
 
 
-### deleteLogStream(params, cb)
+#### AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM
+
 Deletes the specified log stream and permanently deletes all the archived log events associated with the log stream. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogStream.html)
 
-Parameter              | Type           | Description
----------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogStream.html))
-**cb**                 | Function       | Callback function that takes one parameter (a response table)
+| Parameter     | Type   | Required | Description |
+| ------------- | ------ | -------- | ----------- |
+| logGroupName  | String | Yes      | The name of the log group. |
+| logStreamName | String | Yes      | The name of the log stream you are deleting from the log group. |
 
-where `params` includes
-
-Parameter              | Type           | Required | Description
----------------------- | -------------- | -------- | -----------
-logGroupName           | String         | Yes      | The name of the log group
-logStreamName          | String         | Yes      | The name of the log stream you are deleting from the log group
-
-### Example
+##### Example
 
 ```squirrel
 params <- {
@@ -160,7 +156,7 @@ params <- {
     "logStreamName": "testLogStream"
 };
 
-logs.deleteLogStream(deleteParams, function (res) {
+logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM, deleteParams, function (res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log stream successfully");
     } else {
@@ -169,25 +165,18 @@ logs.deleteLogStream(deleteParams, function (res) {
 });
 ```
 
+#### AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS
 
-### putLogEvents(params, cb)
 Uploads a batch of log events to the specified log stream. For more detail please see: [AWS Docs](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html)
 
-Parameter              | Type           | Description
----------------------- | -------------- | -----------
-**params**             | Table          | Table of parameters (See [Request Syntax](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html))
-**cb**                 | Function       | Callback function that takes one parameter (a response table)
+| Parameter     | Type            | Required | Default | Description                                 |
+| ------------- | --------------- | -------- | ------- | ------------------------------------------- |
+| logEvents     | Array of Tables | Yes      | N/A     | An array of log event tables. Each event table must contain the keys "message" and "timestamp". The "message" value must be of type `String` and should contain the log message. The "timestamp" value must be of type `String` and should formatted as milliseconds since Unix Epoch (milliseconds passed Jan 1, 1970 00:00:00 UTC). |
+| logGroupName  | String          | Yes      | N/A     | The name of the log group. |
+| logStreamName | String          | Yes      | N/A     | The name of the log stream. |
+| sequenceToken | No              | No       | `null`  | The sequence token. |
 
-where `params` includes
-
-Parameter              | Type            | Required | Default | Description
----------------------- | --------------- | -------- | ------- | -----------
-logEvents              | Array of Tables | Yes      | N/A     | The log events. Each table must contain a message of type String and a timestamp of type String (milliseconds passed  Jan 1, 1970 00:00:00 UTC).
-logGroupName           | String          | Yes      | N/A     | The name of the log group
-logStreamName          | String          | Yes      | N/A     | The name of the log stream
-sequenceToken          | No              | No       | null    | The sequence token
-
-### Example
+##### Example
 
 ```squirrel
 d       <- date();
@@ -203,7 +192,7 @@ putLogParams <- {
     }]
 };
 
-logs.putLogEvents(putLogParams, function(res) {
+logs.action(AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS, putLogParams, function(res) {
     if (res.statuscode) {
         server.log("successfully put a log in a stream");
     } else {
@@ -212,24 +201,26 @@ logs.putLogEvents(putLogParams, function(res) {
 });
 ```
 
+#### Callback Response Table
 
-#### Response Table
-The format of the response table general to all functions
+The response table general to all functions contains the following keys:
 
-Key                    | Type           | Description
----------------------- | -------------- | -----------
-body                   | String         | Cloud Watch Logs response in a function specific structure that is json encoded.
-statuscode             | Integer        | http status code
-headers                | Table          | see headers
+| Key          | Type    | Description |
+| ------------ | ------- | ----------- |
+| *body*       | String  | Cloud Watch Logs response in a function specific structure that is json encoded. |
+| *statuscode* | Integer | http status code. |
+| *headers*    | Table   | see headers. |
 
-where `headers` includes
+##### Headers
 
-Key                    | Type           | Description
----------------------- | -------------- | -----------
-x-amzn-requestid       | String         | Amazon request id
-connection             | String         | Connection status
-date                   | String         | The date and time at which response was sent
-content-length         | String         | the length of the content
+The *headers* table, contains the following keys:
+
+| Key              | Type   | Description |
+| ---------------- | ------ | ----------- |
+| x-amzn-requestid | String | Amazon request id. |
+| connection       | String | Connection status. |
+| date             | String | The date and time at which response was sent. |
+| content-length   | String | the length of the content. |
 
 
 ## License

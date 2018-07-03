@@ -22,15 +22,21 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+const AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM = "CreateLogStream";
+const AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP  = "CreateLogGroup";
+const AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP  = "DeleteLogGroup";
+const AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM = "DeleteLogStream";
+const AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS    = "PutLogEvents";
+
+const AWS_CLOUDWATCH_LOGS_TARGET_PREFIX            = "Logs_20140328";
+const AWS_CLOUDWATCH_LOGS_CONTENT_TYPE             = "application/x-amz-json-1.1";
+const AWS_CLOUDWATCH_LOGS_SERVICE                  = "logs";
 
 class AWSCloudWatchLogs {
+
     static VERSION = "1.0.0";
 
-    static SERVICE = "logs";
-    static TARGET_PREFIX = "Logs_20140328";
-
     _awsRequest = null;
-
 
     // --------------------------------------------------------------------------
     // @param {string} region
@@ -39,99 +45,49 @@ class AWSCloudWatchLogs {
     // --------------------------------------------------------------------------
     constructor(region, accessKeyId, secretAccessKey) {
         if ("AWSRequestV4" in getroottable()) {
-            _awsRequest = AWSRequestV4(SERVICE, region, accessKeyId, secretAccessKey);
+            _awsRequest = AWSRequestV4(AWS_CLOUDWATCH_LOGS_SERVICE, region, accessKeyId, secretAccessKey);
         } else {
             throw ("This class requires AWSRequestV4 - please make sure it is loaded.");
         }
     }
 
-
-
     // --------------------------------------------------------------------------
+    // @param {string} action constant
     // @param {table} params
     // @param {function} cb
     // --------------------------------------------------------------------------
-    function createLogStream(params, cb) {
-
+    function action(actionType, params, cb) {
         local headers = {
-            "X-Amz-Target": format("%s.CreateLogStream", TARGET_PREFIX)
-            "Content-Type": "application/x-amz-json-1.1"
+            "X-Amz-Target": format("%s.%s", AWS_CLOUDWATCH_LOGS_TARGET_PREFIX, actionType),
+            "Content-Type": AWS_CLOUDWATCH_LOGS_CONTENT_TYPE
         };
-        _awsRequest.post("/", headers, http.jsonencode(params), cb);
-    }
 
-
-
-    // --------------------------------------------------------------------------
-    // @param {table} params
-    // @param {function} cb
-    // --------------------------------------------------------------------------
-    function createLogGroup(params, cb) {
-
-        local headers = {
-            "X-Amz-Target": format("%s.CreateLogGroup", TARGET_PREFIX)
-            "Content-Type": "application/x-amz-json-1.1"
-        };
-        _awsRequest.post("/", headers, http.jsonencode(params), cb);
-    }
-
-
-
-    // --------------------------------------------------------------------------
-    // @param {table} params
-    // @param {function} cb
-    // --------------------------------------------------------------------------
-    function deleteLogGroup(params, cb) {
-
-        local headers = {
-            "X-Amz-Target": format("%s.DeleteLogGroup", TARGET_PREFIX)
-            "Content-Type": "application/x-amz-json-1.1"
-        };
-        _awsRequest.post("/", headers, http.jsonencode(params), cb);
-    }
-
-
-
-    // --------------------------------------------------------------------------
-    // @param {table} params
-    // @param {function} cb
-    // --------------------------------------------------------------------------
-    function deleteLogStream(params, cb) {
-
-        local headers = {
-            "X-Amz-Target": format("%s.DeleteLogStream", TARGET_PREFIX)
-            "Content-Type": "application/x-amz-json-1.1"
-        };
-        _awsRequest.post("/", headers, http.jsonencode(params), cb);
-    }
-
-
-
-    // --------------------------------------------------------------------------
-    // @param {table} params
-    // @param {function} cb
-    // --------------------------------------------------------------------------
-    function putLogEvents(params, cb) {
-
-        local locLogEvents = params.logEvents;
-        local newParams = "{ \"logStreamName\": " + http.jsonencode(params.logStreamName) + ", \"logEvents\": [";
-
-        for (local i = 0; i < locLogEvents.len(); i++) {
-            newParams += " { " + "\"message\": " + http.jsonencode(locLogEvents[i].message) + ", ";
-            newParams += "\"timestamp\": " + locLogEvents[i].timestamp + "}";
-
-            if (i != locLogEvents.len() - 1) {
-                newParams += ", ";
-            }
+        local body = (actionType == AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS) ? _formatEventParams(params) : http.jsonencode(params);
+        if (typeof body == "string") {
+            _awsRequest.post("/", headers, body, cb);
+        } else {
+            cb(body);
         }
-        newParams += "] , \"logGroupName\": " + http.jsonencode(params.logGroupName) + " }";
-
-        local headers = {
-            "X-Amz-Target": format("%s.PutLogEvents", TARGET_PREFIX)
-            "Content-Type": "application/x-amz-json-1.1"
-        };
-
-
-        _awsRequest.post("/", headers, newParams, cb);
     }
+
+    // --------------------------------------------------------------------------
+    // @param {table} params
+    // --------------------------------------------------------------------------
+    function _formatEventParams(params) {
+        // AWS expects timestamp to be an integer, however integer timestamp with ms is too large for squirrel
+        // Convert event timestamp back to an integer when JSON encoded
+        try {
+            local ep = format("{\"logGroupName\":\"%s\",\"logStreamName\":\"%s\",\"logEvents\":[", params.logGroupName, params.logStreamName);
+            foreach(idx, log in params.logEvents) {
+                ep += format("{\"message\":\"%s\",\"timestamp\":%s}%s",
+                             log.message,
+                             log.timestamp.tostring(),
+                             (idx != (params.logEvents.len() - 1)) ? "," : "]}");
+            }
+            return ep
+        } catch(e) {
+            return {"error" : e};
+        }
+    }
+
 }

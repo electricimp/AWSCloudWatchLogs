@@ -75,7 +75,7 @@ function deleteLogGroupHandler(res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Deleted log group successfully.");
         server.log("Creating a log group again.");
-        logs.createLogGroup(groupParams, createLogGroupHandler);
+        logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP, groupParams, createLogGroupHandler);
     } else {
         server.log("Failed to delete a log group. error: " + http.jsondecode(res.body).message);
     }
@@ -93,7 +93,7 @@ function createLogStreamHandler(res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log stream successfully");
         // Puts a log event onto the stream
-        logs.putLogEvents(putLogParams, putLogEventsHandler);
+        logs.action(AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS, putLogParams, putLogEventsHandler);
     } else {
         server.log("Failed to create log stream. error: " + http.jsondecode(res.body).message);
     }
@@ -103,10 +103,10 @@ function createLogGroupHandler(res) {
     if (res.statuscode == HTTP_RESPONSE_SUCCESS) {
         server.log("Created a log group successfully");
         // Create a log stream
-        logs.createLogStream(params, createLogStreamHandler);
+        logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM, params, createLogStreamHandler);
     } else if (res.statuscode == HTTP_RESPONSE_FAILED && http.jsondecode(res.body).message == "The specified log group already exists") {
         // Log group exists - delete it
-        logs.deleteLogGroup(putLogParams, deleteLogGroupHandler);
+        logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP, deleteParams, deleteLogGroupHandler);
     } else {
         server.log("Failed to create log group. error: " + http.jsondecode(res.body).message);
     }
@@ -115,4 +115,4 @@ function createLogGroupHandler(res) {
 
 // Creates a log group, log stream, a log event
 // If log group exsists, deletes then creates a log group...
-logs.createLogGroup(groupParams, createLogGroupHandler);
+logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP, groupParams, createLogGroupHandler);
