@@ -59,7 +59,7 @@ This method performs a specified action (eg. create log group) with the required
 
 #### Action Parameters
 
-Specific actions of the types listed above are configured by passing information into *action()*’s *actionParams* parameter a
+Specific actions of the types listed above are configured by passing information into *action()*’s *actionParams* parameter as a table with the following action type-specific keys.
 
 #### AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP
 
