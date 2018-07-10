@@ -1,6 +1,6 @@
 # AWSCloudWatchLogs #
 
-You can use [AWS CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/Welcome.html) to monitor and store your log files from Amazon Elastic Compute Cloud (EC2) instances, AWS CloudTrail, and other sources. You can then retrieve the associated log data from CloudWatch Logs. This class can be used to perform Cloud Watch log actions via an Electric Imp.
+You can use [AWS CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/Welcome.html) to monitor and store your log files from Amazon Elastic Compute Cloud (EC2) instances, AWS CloudTrail, and other sources. You can then retrieve the associated log data from CloudWatch Logs. This class can be used to perform CloudWatch log actions via an Electric Imp.
 
 **Note** The AWSCloudWatchLogs library uses [AWSRequestV4](https://github.com/electricimp/AWSRequestV4/) for all requests. Therefor the AWSRequestV4 library must also be included in your agent code.
 
@@ -40,13 +40,13 @@ logs <- AWSCloudWatchLogs(AWS_CLOUDWATCH_LOGS_REGION, AWS_CLOUDWATCH_LOGS_ACCESS
 
 ### action(*actionType, actionParams, callback*) ###
 
-This method performs a specified action (eg. create log group) with any required parameters (*actionParams*) for the specified [action type](#action-types).
+This method performs a specified action (eg. create a log group) with any required parameters (*actionParams*) for the specified [action type](#action-types).
 
 #### Parameters ####
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| *actionType* | Constant | The type of the CloudWatch Logs action that you wish to perform (see [‘Action Types’](action-types), below) |
+| *actionType* | Constant | The type of the CloudWatch logging action that you wish to perform (see [‘Action Types’](action-types), below) |
 | *actionParams* | Table | A table of action-specific parameters |
 | *callback* | Function | A callback function that takes one parameter: a [Callback Response Table](#callback-response-table) |
 
@@ -56,7 +56,7 @@ The response table general to all functions contains the following keys:
 
 | Key | Type | Description |
 | --- | --- | --- |
-| *body* | String | The JSON-encoded Cloud Watch Logs response in a function-specific structure |
+| *body* | String | The JSON-encoded CloudWatch response in a function-specific structure |
 | *statuscode* | Integer | The HTTP status code |
 | *headers* | Table | See [‘Headers’](#headers), below |
 
