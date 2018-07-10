@@ -52,10 +52,11 @@ This method performs a specified action (eg. create a log group) with any requir
 
 #### Callback Response Table ####
 
-The response table general to all functions contains the following keys:
+The response table general to all functions. If an error was encountered while encoding the parameters the response table will contain only the *error* key, otherwise the response table will contain the *body*, *statuscode* and *headers* keys.
 
 | Key | Type | Description |
 | --- | --- | --- |
+| *error* | String | A string describing the error encountered |
 | *body* | String | The JSON-encoded CloudWatch response in a function-specific structure |
 | *statuscode* | Integer | The HTTP status code |
 | *headers* | Table | See [‘Headers’](#headers), below |
@@ -102,11 +103,16 @@ local groupParams = { "logGroupName": "testLogGroup",
                       "tags": { "Environment": "test" } };
 
 logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP, groupParams, function(response) {
-  if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
-    server.log("Created a log group successfully");
-  } else {
-    server.log("Failed to create log group. error: " + http.jsondecode(response.body).message);
-  }
+    if ("error" in response) {
+        server.error(response.error);
+        return;
+    }
+
+    if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
+        server.log("Created a log group successfully");
+    } else {
+        server.log("Failed to create log group. error: " + http.jsondecode(response.body).message);
+    }
 });
 ```
 
@@ -128,11 +134,16 @@ local params = { "logGroupName": "testLogGroup",
                  "logStreamName": "testLogStream" };
 
 logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM, params, function(response) {
-  if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
-    server.log("Created a log stream successfully");
-  } else {
-    server.log("Failed to create log stream. error: " + http.jsondecode(response.body).message);
-  }
+    if ("error" in response) {
+        server.error(response.error);
+        return;
+    }
+
+    if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
+        server.log("Created a log stream successfully");
+    } else {
+        server.log("Failed to create log stream. error: " + http.jsondecode(response.body).message);
+    }
 });
 ```
 
@@ -152,11 +163,16 @@ This action deletes a log group with the specified name. For more details please
 local deleteParams = { "logGroupName": "testLogGroup" };
 
 logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP, deleteParams, function(response) {
-  if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
-    server.log("Deleted log group successfully");
-  } else {
-    server.log("Failed to delete log group. error: " + http.jsondecode(response.body).message);
-  }
+    if ("error" in response) {
+        server.error(response.error);
+        return;
+    }
+
+    if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
+        server.log("Deleted log group successfully");
+    } else {
+        server.log("Failed to delete log group. error: " + http.jsondecode(response.body).message);
+    }
 });
 ```
 
@@ -178,11 +194,16 @@ local params = { "logGroupName": "testLogGroup",
                  "logStreamName": "testLogStream" };
 
 logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM, deleteParams, function(response) {
-  if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
-    server.log("Deleted log stream successfully");
-  } else {
-    server.log("Failed to delete log stream. error: " + http.jsondecode(response.body).message);
-  }
+    if ("error" in response) {
+        server.error(response.error);
+        return;
+    }
+
+    if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
+        server.log("Deleted log stream successfully");
+    } else {
+        server.log("Failed to delete log stream. error: " + http.jsondecode(response.body).message);
+    }
 });
 ```
 
@@ -212,11 +233,16 @@ local putLogParams = { "logGroupName": "testLogGroup",
                                        "timestamp": ts }] };
 
 logs.action(AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS, putLogParams, function(response) {
-  if (response.statuscode) {
-    server.log("successfully put a log in a stream");
-  } else {
-    server.log("failed to put a log in a stream");
-  }
+    if ("error" in response) {
+        server.error(response.error);
+        return;
+    }
+
+    if (response.statuscode == HTTP_RESPONSE_SUCCESS) {
+        server.log("successfully put a log in a stream");
+    } else {
+        server.log("failed to put a log in a stream");
+    }
 });
 ```
 

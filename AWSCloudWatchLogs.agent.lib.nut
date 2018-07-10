@@ -37,7 +37,6 @@ class AWSCloudWatchLogs {
     static VERSION = "1.0.0";
 
     _awsRequest = null;
-    _encodingError = null;
 
     // --------------------------------------------------------------------------
     // @param {string} region
@@ -63,34 +62,30 @@ class AWSCloudWatchLogs {
             "Content-Type": AWS_CLOUDWATCH_LOGS_CONTENT_TYPE
         };
 
-        local body = (actionType == AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS) ? _formatEventParams(params) : http.jsonencode(params);
+        local body = null;
+        local error = "An error occurred while encodeing parameters.";
+
+        if (actionType == AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS) {
+            try {
+                local ep = format("{\"logGroupName\":\"%s\",\"logStreamName\":\"%s\",\"logEvents\":[", params.logGroupName, params.logStreamName);
+                foreach (idx, log in params.logEvents) {
+                    ep += format("{\"message\":\"%s\",\"timestamp\":%s}%s",
+                                 log.message,
+                                 log.timestamp.tostring(),
+                                 (idx != (params.logEvents.len() - 1)) ? "," : "]}");
+                }
+                body = ep;
+            } catch(e) {
+                error += " " + e;
+            }
+        } else {
+            body = http.jsonencode(params);
+        }
+
         if (body != null) {
             _awsRequest.post("/", headers, body, cb);
         } else {
-            local err = "Error while encodeing params. Error: " + _encodingError;
-            _encodingError = null;
-            return err;
-        }
-    }
-
-    // --------------------------------------------------------------------------
-    // @param {table} params
-    // --------------------------------------------------------------------------
-    function _formatEventParams(params) {
-        // AWS expects timestamp to be an integer, however integer timestamp with ms is too large for squirrel
-        // Convert event timestamp back to an integer when JSON encoded
-        try {
-            local ep = format("{\"logGroupName\":\"%s\",\"logStreamName\":\"%s\",\"logEvents\":[", params.logGroupName, params.logStreamName);
-            foreach(idx, log in params.logEvents) {
-                ep += format("{\"message\":\"%s\",\"timestamp\":%s}%s",
-                             log.message,
-                             log.timestamp.tostring(),
-                             (idx != (params.logEvents.len() - 1)) ? "," : "]}");
-            }
-            return ep
-        } catch(err) {
-            _encodingError = err;
-            return null;
+            cb({"error" : error});
         }
     }
 
