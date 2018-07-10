@@ -1,24 +1,18 @@
-# Test Instructions
-
-Testing requires AWS access keys. For instructions on how to create keys, please see the [Read Me file included in the example folder](../example/README.md).
-
-**Note** Once you have added keys to the test code it should be treated carefully and **not checked into version control**.
+# Test Instructions #
 
 ## Configure The API Keys For CloudWatch Logs ##
 
-At the top of the `.test.nut` files there are three constants which need to be configured:
+Testing requires AWS access keys. For instructions on how to create keys, please see the [README file included in the example folder](../example/README.md).
 
-Parameter | Description
---- | ---
-*AWS_CLOUD_WATCH_LOGS_REGION* | AWS region (eg. `"us-west-2"`)
-*AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID* | IAM Access Key ID
-*AWS_CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY* | IAM Secret Access Key
+Once keys are created you can store them as environment variables named: *CLOUD_WATCH_LOGS_ACCESS_KEY_ID*, *CLOUD_WATCH_LOGS_SECRET_ACCESS_KEY*, and *CLOUD_WATCH_LOGS_REGION*, or you can copy and paste them into the test code. Please note if you have added keys to the test code it should be treated carefully and **not checked into version control**.
 
 ## Imptest ##
 
-Please ensure that the `.impt.test` agent file includes both the AWSRequestV4 and the AWSCloudWatchLogs libraries.
-From the `tests` directory, log into your account and then enter `impt test run` into the command line.
+Please ensure that the `.impt.test` agent file includes the AWSCloudWatchLogs.agent.lib.nut file and that the test code includes the AWSRequestV4 library.
+From the `AWSCloudWatchLogs` directory, log into your account and then enter `impt test run` into the command line.
 
 ## License ##
 
 The AWSCloudWatchLogs library is licensed under the [MIT License](../LICENSE).
+
+
