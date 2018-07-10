@@ -17,10 +17,10 @@ The sample code requires AWS keys. The instructions below will guide you how to 
 1. Click the **Create Policy** button.
 1. On the **Create Policy** page do the following:
     1. Click **Service** or **Choose a service**, then locate and select **CloudWatch Logs**.
-    1. Click **Actions** under **Manual Actions**, then Check **All CloudWatch Logs Actions** &mdash; this will trigger two warnings.
+    1. Click **Actions** under **Manual Actions**, then check **All CloudWatch Logs Actions** &mdash; this will trigger two warnings.
     1. Click **Resources** and select **All resources**.
     1. Click **Review policy**.
-    1. Give your policy a name &dmash; for example, `allow-CloudWatch-Logs`.
+    1. Give your policy a name &mdash; for example, `allow-CloudWatch-Logs`.
     1. Click **Create Policy**.
 
 ## Set Up An AIM User ##
