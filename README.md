@@ -208,27 +208,6 @@ logs.action(AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS, putLogParams, function(re
 });
 ```
 
-#### Callback Response Table ####
-
-The response table general to all functions contains the following keys:
-
-| Key | Type | Description |
-| --- | --- | --- |
-| *body* | String | The JSON-encoded Cloud Watch Logs response in a function-specific structure |
-| *statuscode* | Integer | The HTTP status code |
-| *headers* | Table | See ‘Headers’, below |
-
-#### Headers ####
-
-The *headers* table, contains the following keys:
-
-| Key | Type | Description |
-| --- | --- | --- |
-| *x-amzn-requestid* | String | The AWS request ID |
-| *connection* | String | The connection status |
-| *date* | String | The date and time at which the response was sent |
-| *content-length* | String | The length of the content in bytes |
-
 ## License ##
 
 The AWSCloudWatchLogs library is licensed under the [MIT License](LICENSE).
