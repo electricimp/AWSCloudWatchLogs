@@ -42,6 +42,8 @@ logs <- AWSCloudWatchLogs(AWS_CLOUDWATCH_LOGS_REGION, AWS_CLOUDWATCH_LOGS_ACCESS
 
 This method performs a specified action (eg. create log group) with any required parameters (*actionParams*) for the specified [action type](#action-types).
 
+#### Parameters ####
+
 | Parameter | Type | Description |
 | --- | --- | --- |
 | *actionType* | Constant | The type of the CloudWatch Logs action that you wish to perform (see [‘Action Types’](action-types), below) |
@@ -85,6 +87,8 @@ Specific actions of the types listed above are configured by passing information
 
 This action creates a log group with the specified name. For more details please see the [AWS documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogGroup.html).
 
+#### Action Parameters ####
+
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
 | *logGroupName* | String | Yes | The name of the log group you are creating |
@@ -110,6 +114,8 @@ logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_GROUP, groupParams, function(r
 
 This action creates a log stream for the specified log group. For more details please see the [AWS documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogStream.html).
 
+#### Action Parameters ####
+
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
 | *logGroupName* | String | Yes | The name of the existing log group |
@@ -134,6 +140,8 @@ logs.action(AWS_CLOUDWATCH_LOGS_ACTION_CREATE_LOG_STREAM, params, function(respo
 
 This action deletes a log group with the specified name. For more details please see the [AWS documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogGroup.html).
 
+#### Action Parameters ####
+
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
 | *logGroupName* | String | Yes | The name of the log group you want to delete |
@@ -155,6 +163,8 @@ logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_GROUP, deleteParams, function(
 ### AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM ###
 
 This action deletes the specified log stream and permanently deletes all of the archived log events that have been associated with the log stream. For more details please see the [AWS documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteLogStream.html).
+
+#### Action Parameters ####
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -179,6 +189,8 @@ logs.action(AWS_CLOUDWATCH_LOGS_ACTION_DELETE_LOG_STREAM, deleteParams, function
 ### AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS ###
 
 This action uploads a batch of log events to the specified log stream. For more details please see the [AWS documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html).
+
+#### Action Parameters ####
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
