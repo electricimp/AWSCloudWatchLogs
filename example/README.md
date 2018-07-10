@@ -33,7 +33,7 @@ The sample code requires AWS keys. The instructions below will guide you how to 
 1. Check **Programmatic access** but nothing else.
 1. Click **Next: Permissions**.
 1. Click the **Attach existing policies directly** icon.
-1. Check **allow-CloudWatch-Logs** from the list of policies.
+1. Check the policy that matches the policy name you just created from the list of policies, ie `allow-CloudWatch-Logs`.
 1. Click **Next: Review**.
 1. Click **Create user**
 1. Copy down your **Access key ID** and **Secret access key**.
