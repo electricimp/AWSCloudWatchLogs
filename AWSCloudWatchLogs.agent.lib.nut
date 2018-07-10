@@ -37,6 +37,7 @@ class AWSCloudWatchLogs {
     static VERSION = "1.0.0";
 
     _awsRequest = null;
+    _encodingError = null;
 
     // --------------------------------------------------------------------------
     // @param {string} region
@@ -63,10 +64,12 @@ class AWSCloudWatchLogs {
         };
 
         local body = (actionType == AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS) ? _formatEventParams(params) : http.jsonencode(params);
-        if (typeof body == "string") {
+        if (body != null) {
             _awsRequest.post("/", headers, body, cb);
         } else {
-            cb(body);
+            local err = "Error while encodeing params. Error: " + _encodingError;
+            _encodingError = null;
+            return err;
         }
     }
 
@@ -85,8 +88,9 @@ class AWSCloudWatchLogs {
                              (idx != (params.logEvents.len() - 1)) ? "," : "]}");
             }
             return ep
-        } catch(e) {
-            return {"error" : e};
+        } catch(err) {
+            _encodingError = err;
+            return null;
         }
     }
 
