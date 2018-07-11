@@ -8,11 +8,9 @@ Once keys are created you can store them as environment variables named: *CLOUD_
 
 ## Imptest ##
 
-Please ensure that the `.impt.test` agent file includes the AWSCloudWatchLogs.agent.lib.nut file and that the test code includes the AWSRequestV4 library.
-From the `AWSCloudWatchLogs` directory, log into your account and then enter `impt test run` into the command line.
+In the `.impt.test` file update the **deviceGroupId** to a device group in your impCentral account, and check that the **agentFile** is set to *AWSCloudWatchLogs.agent.lib.nut*. Make sure all test code includes the *AWSRequestV4 library*.
+From the *AWSCloudWatchLogs* directory, log into your account and then enter `impt test run` into the command line.
 
 ## License ##
 
 The AWSCloudWatchLogs library is licensed under the [MIT License](../LICENSE).
-
-
