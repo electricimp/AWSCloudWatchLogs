@@ -24,7 +24,7 @@
 
 
 #require "AWSRequestV4.class.nut:1.0.2"
-#require "AWSCloudWatchLogs.lib.nut:1.0.0"
+#require "AWSCloudWatchLogs.agent.lib.nut:1.0.0"
 
 
 const AWS_CLOUD_WATCH_LOGS_ACCESS_KEY_ID     = "YOUR_KEY_ID_HERE";

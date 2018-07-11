@@ -8,7 +8,7 @@ You can use [AWS CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatchLo
 
 ```squirrel
 #require "AWSRequestV4.class.nut:1.0.2"
-#require "AWSCloudWatchLogs.lib.nut:1.0.0"
+#require "AWSCloudWatchLogs.agent.lib.nut:1.0.0"
 ```
 
 ## Class Usage ##
@@ -27,7 +27,7 @@ You can use [AWS CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatchLo
 
 ```squirrel
 #require "AWSRequestV4.class.nut:1.0.2"
-#require "AWSCloudWatchLogs.lib.nut:1.0.0"
+#require "AWSCloudWatchLogs.agent.lib.nut:1.0.0"
 
 const AWS_CLOUDWATCH_LOGS_ACCESS_KEY_ID = "YOUR_KEY_ID";
 const AWS_CLOUDWATCH_LOGS_SECRET_ACCESS_KEY = "YOUR_KEY";
