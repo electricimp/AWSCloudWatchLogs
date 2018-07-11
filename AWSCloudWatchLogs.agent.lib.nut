@@ -63,7 +63,7 @@ class AWSCloudWatchLogs {
         };
 
         local body = null;
-        local error = "An error occurred while encodeing parameters.";
+        local error = "An error occurred while encoding parameters.";
 
         if (actionType == AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS) {
             try {
@@ -76,7 +76,7 @@ class AWSCloudWatchLogs {
                 }
                 body = ep;
             } catch(e) {
-                error += " " + e;
+                error += "Details: " + e;
             }
         } else {
             body = http.jsonencode(params);
