@@ -11,6 +11,8 @@ You can use [AWS CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatchLo
 #require "AWSCloudWatchLogs.agent.lib.nut:1.0.0"
 ```
 
+![Build Status](https://cse-ci.electricimp.com/app/rest/builds/buildType:(id:AWSCloudWatchLogs_BuildAndTest)/statusIcon)
+
 ## Class Usage ##
 
 ### Constructor: AWSCloudWatchLogs(*region, accessKeyId, secretAccessKe*) ###
