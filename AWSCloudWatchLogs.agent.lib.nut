@@ -34,7 +34,7 @@ const AWS_CLOUDWATCH_LOGS_SERVICE                  = "logs";
 
 class AWSCloudWatchLogs {
 
-    static VERSION = "1.0.0";
+    static VERSION = "1.0.1";
 
     _awsRequest = null;
 
@@ -67,7 +67,8 @@ class AWSCloudWatchLogs {
 
         if (actionType == AWS_CLOUDWATCH_LOGS_ACTION_PUT_LOG_EVENTS) {
             try {
-                local ep = format("{\"logGroupName\":\"%s\",\"logStreamName\":\"%s\",\"logEvents\":[", params.logGroupName, params.logStreamName);
+                local ep = ("sequenceToken" in params) ? format("{\"sequenceToken\":\"%s\",", params.sequenceToken) : "{";
+                ep += format("\"logGroupName\":\"%s\",\"logStreamName\":\"%s\",\"logEvents\":[", params.logGroupName, params.logStreamName);
                 foreach (idx, log in params.logEvents) {
                     ep += format("{\"message\":\"%s\",\"timestamp\":%s}%s",
                                  log.message,
